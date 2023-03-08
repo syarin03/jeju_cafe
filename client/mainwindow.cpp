@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     this->socket.connectToHost("127.0.0.1", 9001);
     if (this->socket.waitForConnected()) {
-        qDebug() << "Connected to server!";
+//        qDebug() << "Connected to server!";
+        cout << "connected to server" << endl;
     } else {
-        qCritical() << "Failed to connect to server";
-        return;
+//        qCritical() << "Failed to connect to server";
+        cout << "failed to connect to server" << endl;
+        exit(1);
     }
 
     QJsonObject obj;
@@ -22,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     if (this->socket.waitForReadyRead()) {
         QByteArray response = this->socket.readAll();
-        qDebug() << "Response from server:" << response;
+//        qDebug() << "Response from server:" << response;
+        cout << "response from server: " << response.toStdString() << endl;
 
         QJsonDocument doc = QJsonDocument::fromJson(response);
         QJsonObject obj = doc.object();

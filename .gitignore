@@ -2,3 +2,4 @@ build-client-Desktop_Qt_6_4_2_MSVC2019_64bit-Debug/
 client/client.pro.user
 server/server.pro.user
 *.user
+*.4ced3da

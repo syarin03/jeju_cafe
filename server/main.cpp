@@ -17,6 +17,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     int n = 0;
+    int n2 = 0;
 
     QCoreApplication a(argc, argv);
     QList<QTcpSocket*> clientSockets; //클라이언트여러개 정보 받을 리스트
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     db.setDatabaseName("1team_db");
     db.setUserName("jeju_cafe");
     db.setPassword("xlavmfhwprxm1");
+
 
     // 데이터베이스 연결
     if (!db.open()) {
@@ -46,8 +48,8 @@ int main(int argc, char *argv[])
 //           if (query.exec(sql)) {
 //               while (query.next())
 //               {
-////                   int id = query.value(0).toInt();
-////                   QString name = query.value(1).toString();
+//                   int id = query.value(0).toInt();
+//                   QString name = query.value(1).toString();
 //                   int num = 0;
 //                   while (num<8)
 //                   {
@@ -78,23 +80,112 @@ int main(int argc, char *argv[])
     }
 
     // 3. 새로운 연결이 있을 때마다 실행되는 코드
-    QObject::connect(&server, &QTcpServer::newConnection, [&server,&clientSockets,&n](){                                    //클라이언트 연결시마다 작동,따로스레드나 반복문 안걸어도 자동루프함
+    QObject::connect(&server, &QTcpServer::newConnection, [&server,&clientSockets,&n,&n2](){                                    //클라이언트 연결시마다 작동,따로스레드나 반복문 안걸어도 자동루프함
         QTcpSocket* clientSocket = server.nextPendingConnection();                                                          //연결된 클라이언트 소켓 얻어옴
         qDebug() << "New client connected from" << clientSocket->peerAddress().toString() << ":" << clientSocket->peerPort(); //연결한 클라의 주소와 포트번호 출력
         clientSockets.append(clientSocket);                                                                                  //QList인 clientSockets에 클라소켓 append
 
         // 4. 연결된 클라이언트와 데이터 송수신
-        QObject::connect(clientSocket, &QTcpSocket::readyRead, [clientSocket,&clientSockets,&n]() {                     //데이터 수신시마다 작동,따로 스레드나 반복문안걸어도 자동루프함
+        QObject::connect(clientSocket, &QTcpSocket::readyRead, [clientSocket,&clientSockets,&n,&n2]() {                     //데이터 수신시마다 작동,따로 스레드나 반복문안걸어도 자동루프함
             QByteArray data = clientSocket->readAll();                                                                  //클라소켓으로부터 수신된 데이터 읽어옴
-            qDebug() << "Data received from client:" << data<<clientSocket;                                             //클라이언트로부터온 데이터 출력
+//            qDebug() << "Data received from client:" << data<<clientSocket;                                             //클라이언트로부터온 데이터 출력
+
+            QJsonObject jsonResponse = QJsonDocument::fromJson(data).object();
+//            QStringList keys = jsonResponse.keys();
+            string method = jsonResponse.value("method").toString().toStdString();
+            if ( method=="login")
+            {
+                QJsonValue mapValue = jsonResponse.operator []("input_id");
+                QJsonValue mapValue2 = jsonResponse.operator []("input_pw");
+                if (mapValue.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValue.toString();
+                    qDebug() << "Response from server id:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+                if (mapValue2.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValue2.toString();
+                    qDebug() << "Response from server pw:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+            }
+            else if ( method=="signup")
+            {
+                QJsonValue mapValueid = jsonResponse.operator []("input_id");
+                QJsonValue mapValuepw = jsonResponse.operator []("input_pw");
+                QJsonValue mapValuename = jsonResponse.operator []("input_name");
+                QJsonValue mapValuephone = jsonResponse.operator []("input_phone");
+                if (mapValueid.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValueid.toString();
+                    qDebug() << "Response from server id:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+                if (mapValuepw.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValuepw.toString();
+                    qDebug() << "Response from server pw:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+
+                if (mapValuename.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValuename.toString();
+                    qDebug() << "Response from server name:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+                if (mapValuephone.isString()) {
+                    // 문자열인 경우
+                    QString strValue = mapValuephone.toString();
+                    qDebug() << "Response from server phone:" << strValue;
+                    //여기에 이제 전달식 넣으면 됨
+                } else {
+                    // 그 외의 경우
+                    qCritical() << "Unexpected value for key 'map'";
+                }
+               QString schemaName = "1team_db";
+               QString tableName = "member";
+               QSqlQuery query;
+               QJsonArray list;
+               QString sql = QString("SELECT * FROM `%1`.`%2`").arg(schemaName).arg(tableName);
+               if (query.exec(sql)) {
+                     while (query.next())
+                     {
+                         int num = 0;
+                         while (num<5)
+                         {
+                             list.append(query.value(num).toString());
+                             num++;
+
+                         }
+                         QJsonDocument jsonDoc(list);
+                     }
+                     qDebug() << list;
+                     list = QJsonArray();
+                 }
+                 else {
+                     qDebug() << "Failed to execute query";
+                 }
+
+            }
 
             QJsonObject jsonObject;//            QJsonObject jsonObject;                                                                                     //json형 object생성
-            //            jsonObject["name"] = "John";                                                                                //object key=name, value="john
-            //            jsonObject["age"] = 30;                                                                                     //생략
-            //            QJsonDocument jsonDoc(jsonObject);                                                                          //데이터 직렬화
-            //            QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);                                               //json데이터를 qstring형태의 변수에 저장
-
-
             while(1)                                                                                                    //무한반복문,n을 1씩증가시키면서 데이터를 보낸 클라이언트의 소켓을 만날때까지 반복함
             {
                 if (clientSockets.at(n)==clientSocket){                                                                 //현재 데이터를 보낸 클라이언트와 n번소켓이같을때

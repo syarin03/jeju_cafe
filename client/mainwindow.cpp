@@ -7,10 +7,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     this->socket.connectToHost("127.0.0.1", 9001);
-    if (this->socket.waitForConnected()) {
+
+    if (this->socket.waitForConnected())
+    {
 //        qDebug() << "Connected to server!";
         cout << "connected to server" << endl;
-    } else {
+    }
+    else
+    {
 //        qCritical() << "Failed to connect to server";
         cout << "failed to connect to server" << endl;
         exit(1);
@@ -22,23 +26,13 @@ MainWindow::MainWindow(QWidget *parent)
     QByteArray arr = doc.toJson(QJsonDocument::Compact);
     this->socket.write(arr);
 
-    if (this->socket.waitForReadyRead()) {
+//    if (this->socket.waitForReadyRead())
+    connect(&socket, &QTcpSocket::readyRead, [=]()
+    {
         QByteArray response = this->socket.readAll();
 //        qDebug() << "Response from server:" << response;
         cout << "response from server: " << response.toStdString() << endl;
-
-        QJsonDocument doc = QJsonDocument::fromJson(response);
-        QJsonObject obj = doc.object();
-
-        if (obj.value("map").type() == 3)
-        {
-            cout << obj.value("map").toString().toStdString() << endl;
-        }
-        else if (obj.value("map").type() == 2)
-        {
-            cout << obj.value("map").toInt() << endl;
-        }
-    }
+    });
 
     QRegularExpression re_eng_num("[A-Za-z0-9]*");
     QRegularExpression re_phone("[0-9]{0,11}");
@@ -47,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     QValidator *val_eng_num = new QRegularExpressionValidator(re_eng_num, this);
     QValidator *val_phone = new QRegularExpressionValidator(re_phone, this);
     QValidator *val_eng_kor = new QRegularExpressionValidator(re_eng_kor, this);
+
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentWidget(ui->stack_login);
@@ -68,6 +63,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btn_login_clicked()
 {
+    if (ui->input_login_id->text().toStdString() == "" || ui->input_login_pw->text().toStdString() == "")
+    {
+        QMessageBox::warning(this, "경고", "아이디 또는 비밀번호를 확인해주세요.");
+        return;
+    }
     QJsonObject obj;
     obj["method"] = "login";
     obj["input_id"] = ui->input_login_id->text();
@@ -76,7 +76,7 @@ void MainWindow::on_btn_login_clicked()
     QByteArray arr = doc.toJson(QJsonDocument::Compact);
     this->socket.write(arr);
 
-    cout << obj["method"].toString().toStdString() << endl;
+//    cout << obj["method"].toString().toStdString() << endl;
 }
 
 
@@ -106,20 +106,33 @@ void MainWindow::on_btn_signup_clicked()
 
     cout << obj["method"].toString().toStdString() << endl;
 
-    QJsonDocument doc2 = QJsonDocument::fromJson(arr);
-    QJsonObject obj2 = doc2.object();
+//    QJsonDocument doc2 = QJsonDocument::fromJson(arr);
+//    QJsonObject obj2 = doc2.object();
 
-    for (auto a:obj2)
-    {
-        cout << a.type() << endl;
-        if (a.type() == 3)
-        {
-            cout << a.toString().toStdString() << endl;
-        }
-        else if (a.type() == 2)
-        {
-            cout << a.toInt() << endl;
-        }
-    }
+//    for (auto a:obj2)
+//    {
+//        cout << a.type() << endl;
+//        if (a.type() == 3)
+//        {
+//            cout << a.toString().toStdString() << endl;
+//        }
+//        else if (a.type() == 2)
+//        {
+//            cout << a.toInt() << endl;
+//        }
+//    }
+}
+
+
+void MainWindow::on_stackedWidget_currentChanged(int arg1)
+{
+    ui->input_login_id->clear();
+    ui->input_login_pw->clear();
+
+    ui->input_signup_id->clear();
+    ui->input_signup_pw->clear();
+    ui->input_signup_pwck->clear();
+    ui->input_signup_name->clear();
+    ui->input_signup_phone->clear();
 }
 

@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
             qDebug() << "Data received from client:" << data << clientSocket;  // 클라이언트로부터 온 데이터 출력
             QJsonDocument doc = QJsonDocument::fromJson(data);
             QJsonObject obj = doc.object();
+            QString schemaName = "1team_db";
 
 //            for (auto a:obj)
 //            {
@@ -122,7 +123,6 @@ int main(int argc, char *argv[])
                 QString input_pw = obj.value("input_pw").toString();
                 cout << method << endl;
 
-                QString schemaName = "1team_db";
                 QString tableName = "member";
                 QSqlQuery query;
 //                QJsonArray list;
@@ -168,9 +168,34 @@ int main(int argc, char *argv[])
                     qDebug() << "Failed to execute query";
                 }
             }
-            else if (method == "signup")
+            else if (method == "check_id")
             {
+                QString input_id = obj.value("input_id").toString();
+                cout << method << endl;
 
+                QString tableName = "member";
+                QSqlQuery query;
+                QString sql = QString("SELECT * FROM %1.%2 WHERE uid = '%3';")
+                        .arg(schemaName, tableName, input_id);
+                cout << sql.toStdString() << endl;
+
+                obj["method"] = "check_id_result";
+                if (query.exec(sql))
+                {
+                    if (query.size() == 0)
+                    {
+                        obj["result"] = true;
+                    }
+                    else
+                    {
+                        obj["result"] = false;
+                    }
+                    cout << obj["result"].toBool() << endl;
+                }
+                else
+                {
+                    qDebug() << "Failed to execute query";
+                }
             }
 
             while (1)  // 무한반복문,n을 1씩증가시키면서 데이터를 보낸 클라이언트의 소켓을 만날때까지 반복함

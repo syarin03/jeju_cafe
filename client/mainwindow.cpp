@@ -32,6 +32,22 @@ MainWindow::MainWindow(QWidget *parent)
         QByteArray response = this->socket.readAll();
 //        qDebug() << "Response from server:" << response;
         cout << "response from server: " << response.toStdString() << endl;
+        QJsonDocument doc = QJsonDocument::fromJson(response);
+        QJsonObject obj = doc.object();
+
+        string method = obj.value("method").toString().toStdString();
+
+        if (method == "login_result")
+        {
+            if (!obj["result"].toBool())
+            {
+                QMessageBox::warning(this, "경고", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            }
+            else
+            {
+                QMessageBox::information(this, "알림", "로그인 성공");
+            }
+        }
     });
 
     QRegularExpression re_eng_num("[A-Za-z0-9]*");
@@ -126,6 +142,7 @@ void MainWindow::on_btn_signup_clicked()
 
 void MainWindow::on_stackedWidget_currentChanged(int arg1)
 {
+    cout << "current stack: " << arg1 << endl;
     ui->input_login_id->clear();
     ui->input_login_pw->clear();
 
@@ -134,5 +151,18 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     ui->input_signup_pwck->clear();
     ui->input_signup_name->clear();
     ui->input_signup_phone->clear();
+}
+
+
+void MainWindow::on_input_signup_id_editingFinished()
+{
+    QJsonObject obj;
+    obj["method"] = "check_id";
+    obj["input_id"] = ui->input_signup_id->text();
+    QJsonDocument doc(obj);
+    QByteArray arr = doc.toJson(QJsonDocument::Compact);
+    this->socket.write(arr);
+
+    cout << obj["method"].toString().toStdString() << endl;
 }
 

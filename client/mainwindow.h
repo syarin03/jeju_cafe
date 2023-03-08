@@ -39,6 +39,8 @@ private slots:
 
     void on_stackedWidget_currentChanged(int arg1);
 
+    void on_input_signup_id_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket socket;

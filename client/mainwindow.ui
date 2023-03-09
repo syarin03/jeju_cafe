@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="stack_login">
      <widget class="QLineEdit" name="input_login_id">
@@ -87,9 +87,9 @@
      <widget class="QLineEdit" name="input_signup_id">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>130</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -100,9 +100,9 @@
      <widget class="QLineEdit" name="input_signup_pw">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>190</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -116,9 +116,9 @@
      <widget class="QLineEdit" name="input_signup_pwck">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>250</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -132,9 +132,9 @@
      <widget class="QLineEdit" name="input_signup_name">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>310</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -145,9 +145,9 @@
      <widget class="QLineEdit" name="input_signup_phone">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>370</y>
-        <width>161</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -158,14 +158,14 @@
      <widget class="QLabel" name="label_signup_id">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>160</y>
-        <width>161</width>
+        <width>201</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>중복</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -174,14 +174,14 @@
      <widget class="QLabel" name="label_signup_pw">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>220</y>
-        <width>161</width>
+        <width>201</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>영어+숫자 8자 이상</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -190,14 +190,14 @@
      <widget class="QLabel" name="label_signup_pwck">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>380</x>
         <y>280</y>
-        <width>161</width>
+        <width>201</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>불일치</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -206,7 +206,7 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>210</x>
         <y>130</y>
         <width>161</width>
         <height>31</height>
@@ -222,7 +222,7 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>210</x>
         <y>190</y>
         <width>161</width>
         <height>31</height>
@@ -238,7 +238,7 @@
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>210</x>
         <y>250</y>
         <width>161</width>
         <height>31</height>
@@ -254,7 +254,7 @@
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>210</x>
         <y>310</y>
         <width>161</width>
         <height>31</height>
@@ -270,7 +270,7 @@
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>210</x>
         <y>370</y>
         <width>161</width>
         <height>31</height>
@@ -307,6 +307,21 @@
       </property>
       <property name="text">
        <string>회원가입</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_main">
+     <widget class="QPushButton" name="btn_logout">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>로그아웃</string>
       </property>
      </widget>
     </widget>

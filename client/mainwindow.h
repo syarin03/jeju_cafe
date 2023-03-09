@@ -19,6 +19,20 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class User
+{
+private:
+    int num;
+    QString uid;
+    QString upw;
+    QString uname;
+    QString phone;
+public:
+    User();
+    User(int num, QString uid, QString upw, QString uname, QString phone);
+    void printInfo();
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -41,8 +55,18 @@ private slots:
 
     void on_input_signup_id_editingFinished();
 
+    void on_input_signup_pw_editingFinished();
+
+    void on_input_signup_pwck_textChanged(const QString &arg1);
+
+    void on_btn_logout_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket socket;
+    User login_user;
+    bool isIDCheck = false;
+    bool isPWRule = false;
+    bool isPWSame = false;
 };
 #endif // MAINWINDOW_H

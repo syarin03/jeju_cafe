@@ -2,6 +2,20 @@
 #include "ui_mainwindow.h"
 #include <typeinfo>
 
+User::User(int num, QString uid, QString upw, QString uname, QString phone)
+    : num(num), uid(uid), upw(upw), uname(uname), phone(phone) {}
+
+User::User() {}
+
+void User::printInfo()
+{
+    cout << "num: " << this->num << endl;
+    cout << "uid: " << this->uid.toStdString() << endl;
+    cout << "upw: " << this->upw.toStdString() << endl;
+    cout << "name: " << this->uname.toStdString() << endl;
+    cout << "phone: " << this->phone.toStdString() << endl;
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,13 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     if (this->socket.waitForConnected())
     {
-//        qDebug() << "Connected to server!";
-        cout << "connected to server" << endl;
+        qDebug() << "Connected to server!";
     }
     else
     {
-//        qCritical() << "Failed to connect to server";
-        cout << "failed to connect to server" << endl;
+        qCritical() << "Failed to connect to server";
         exit(1);
     }
 
@@ -46,6 +58,39 @@ MainWindow::MainWindow(QWidget *parent)
             else
             {
                 QMessageBox::information(this, "알림", "로그인 성공");
+                int num = obj.value("user_num").toInt();
+                QString uid = obj.value("user_id").toString();
+                QString upw = obj.value("user_pw").toString();
+                QString uname = obj.value("user_name").toString();
+                QString phone = obj.value("user_phone").toString();
+                this->login_user = User(num, uid, upw, uname, phone);
+                this->login_user.printInfo();
+                ui->stackedWidget->setCurrentWidget(ui->stack_main);
+            }
+        }
+        else if (method == "check_id_result")
+        {
+            if (!obj["result"].toBool())
+            {
+                ui->label_signup_id->setText("이미 사용 중인 아이디");
+                this->isIDCheck = false;
+            }
+            else
+            {
+                ui->label_signup_id->setText("사용 가능한 아이디");
+                this->isIDCheck = true;
+            }
+        }
+        else if (method == "signup_result")
+        {
+            if (!obj["result"].toBool())
+            {
+                QMessageBox::warning(this, "경고", "오류가 발생하여 회원가입에 실패하였습니다.");
+            }
+            else
+            {
+                QMessageBox::information(this, "알림", "회원가입 성공");
+                ui->stackedWidget->setCurrentWidget(ui->stack_login);
             }
         }
     });
@@ -91,8 +136,6 @@ void MainWindow::on_btn_login_clicked()
     QJsonDocument doc(obj);
     QByteArray arr = doc.toJson(QJsonDocument::Compact);
     this->socket.write(arr);
-
-//    cout << obj["method"].toString().toStdString() << endl;
 }
 
 
@@ -110,6 +153,21 @@ void MainWindow::on_btn_signup_to_login_clicked()
 
 void MainWindow::on_btn_signup_clicked()
 {
+    if (!this->isIDCheck)
+    {
+        QMessageBox::warning(this, "경고", "이미 사용 중인 아이디입니다.");
+        return;
+    }
+    else if (!this->isPWRule)
+    {
+        QMessageBox::warning(this, "경고", "영문 숫자 혼용 8자 이상 비밀번호를 입력해주세요.");
+        return;
+    }
+    else if (!this->isPWSame)
+    {
+        QMessageBox::warning(this, "경고", "비밀번호가 일치하지 않습니다.");
+        return;
+    }
     QJsonObject obj;
     obj["method"] = "signup";
     obj["input_id"] = ui->input_signup_id->text();
@@ -121,22 +179,6 @@ void MainWindow::on_btn_signup_clicked()
     this->socket.write(arr);
 
     cout << obj["method"].toString().toStdString() << endl;
-
-//    QJsonDocument doc2 = QJsonDocument::fromJson(arr);
-//    QJsonObject obj2 = doc2.object();
-
-//    for (auto a:obj2)
-//    {
-//        cout << a.type() << endl;
-//        if (a.type() == 3)
-//        {
-//            cout << a.toString().toStdString() << endl;
-//        }
-//        else if (a.type() == 2)
-//        {
-//            cout << a.toInt() << endl;
-//        }
-//    }
 }
 
 
@@ -164,5 +206,69 @@ void MainWindow::on_input_signup_id_editingFinished()
     this->socket.write(arr);
 
     cout << obj["method"].toString().toStdString() << endl;
+}
+
+
+void MainWindow::on_input_signup_pw_editingFinished()
+{
+    int len = ui->input_signup_pw->text().length();
+    int cnt_eng = 0, cnt_num = 0;
+
+    for (auto a:ui->input_signup_pw->text().toStdString())
+    {
+        if (isdigit(a) == 0)
+        {
+            cnt_eng++;
+        }
+        else
+        {
+            cnt_num++;
+        }
+    }
+
+    if (len < 8 || cnt_eng == len || cnt_num == len)
+    {
+        ui->label_signup_pw->setText("영문 숫자 혼용 8자 이상");
+        this->isPWRule = false;
+    }
+    else
+    {
+        ui->label_signup_pw->clear();
+        this->isPWRule = true;
+    }
+
+    if (ui->input_signup_pw->text() != ui->input_signup_pwck->text())
+    {
+        ui->label_signup_pwck->setText("비밀번호가 일치하지 않습니다");
+        this->isPWSame = false;
+    }
+    else
+    {
+        ui->label_signup_pwck->clear();
+        this->isPWSame = true;
+    }
+}
+
+
+void MainWindow::on_input_signup_pwck_textChanged(const QString &arg1)
+{
+    if (ui->input_signup_pw->text() != ui->input_signup_pwck->text())
+    {
+        ui->label_signup_pwck->setText("비밀번호가 일치하지 않습니다");
+        this->isPWSame = false;
+    }
+    else
+    {
+        ui->label_signup_pwck->clear();
+        this->isPWSame = true;
+    }
+}
+
+
+void MainWindow::on_btn_logout_clicked()
+{
+    QMessageBox::information(this, "알림", "로그아웃 되었습니다.");
+    this->login_user = User();
+    ui->stackedWidget->setCurrentWidget(ui->stack_login);
 }
 

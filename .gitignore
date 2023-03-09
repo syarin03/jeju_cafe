@@ -4,3 +4,5 @@ client/client.pro.user
 server/server.pro.user
 *.user
 *.4ced3da
+*.pro.user
+*.pro.user.*

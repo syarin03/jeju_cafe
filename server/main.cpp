@@ -11,11 +11,25 @@
 #include <QSqlTableModel>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+    //점수매기기 test
+    double x = 126.723442;              //임시xy값
+    double y = 33.4534214;
+    string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1228.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
+    std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
+    system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
+    std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
+    std::string line;                                                                                                               //line 변수
+    while (std::getline(infile, line)) {                                                                                            //한줄씩 읽어들임
+        std::cout << line << std::endl;
+    }
+
     int n = 0;
     int n2 = 0;
 
@@ -165,27 +179,43 @@ int main(int argc, char *argv[])
                QJsonArray list;
                QString sql = QString("SELECT * FROM `%1`.`%2`").arg(schemaName).arg(tableName);
                if (query.exec(sql)) {
-                     while (query.next())
-                     {
-                         int num = 0;
-                         while (num<5)
-                         {
-                             list.append(query.value(num).toString());
-                             num++;
-
-                         }
-                         QJsonDocument jsonDoc(list);
-                     }
-                     qDebug() << list;
-                     list = QJsonArray();
+                    while (query.next())
+                    {
+                        int num = 0;
+                        while (num<5)
+                        {
+                            list.append(query.value(num).toString());
+                            num++;
+                        }
+                        QJsonDocument jsonDoc(list);
+                    }
+//                     list = QJsonArray();
                  }
                  else {
                      qDebug() << "Failed to execute query";
                  }
+               qDebug() << list;
 
+               //insert형식 테스트
+               if(list == QJsonArray())
+               {
+                   qDebug() << "!!!!!!!!!!!!!!!!!";
+                   QSqlQuery query;
+                   QString queryString = "INSERT INTO " + tableName + " (uid, upw, uname, phone) "
+                                          "VALUES (:val1, :val2, :val3, :val4)";
+                   query.prepare(queryString);
+                   query.bindValue(":val1", mapValueid);
+                   query.bindValue(":val2", mapValuepw);
+                   query.bindValue(":val3", mapValuename);
+                   query.bindValue(":val4", mapValuephone);
+
+                   if (!query.exec()) {
+                       qDebug() << "Error: Failed to insert data into table.";
+                   }
+               }
             }
 
-            QJsonObject jsonObject;//            QJsonObject jsonObject;                                                                                     //json형 object생성
+            QJsonObject jsonObject;                                                                                     //            QJsonObject jsonObject;      //json형 object생성
             while(1)                                                                                                    //무한반복문,n을 1씩증가시키면서 데이터를 보낸 클라이언트의 소켓을 만날때까지 반복함
             {
                 if (clientSockets.at(n)==clientSocket){                                                                 //현재 데이터를 보낸 클라이언트와 n번소켓이같을때

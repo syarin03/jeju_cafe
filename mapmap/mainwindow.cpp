@@ -11,7 +11,8 @@
 #include "ui_mainwindow.h"
 
 QString MainWindow::make_html(QString &coordx, QString &coordy, QString &maplevel)
-{    QString html =
+{
+    QString html =
         R"(<!DOCTYPE html>
             <html>
             <head>

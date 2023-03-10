@@ -1,5 +1,8 @@
 build-client-Desktop_Qt_6_4_2_MSVC2019_64bit-Debug/
 build-server-Desktop_Qt_6_4_2_MinGW_64_bit-Debug
+build-client-Desktop_Qt_6_4_2_MSVC2019_64bit-Debug
+build-client-Replacement_for_Desktop_Qt_6_6_0_MinGW_64_bit-Debug
+build-mapmap-Desktop_Qt_6_4_2_MSVC2019_64bit-Debug
 client/client.pro.user
 server/server.pro.user
 *.user

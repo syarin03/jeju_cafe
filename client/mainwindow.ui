@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="stack_login">
      <widget class="QLineEdit" name="input_login_id">
@@ -314,8 +314,8 @@
      <widget class="QPushButton" name="btn_logout">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>20</y>
+        <x>10</x>
+        <y>10</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -324,83 +324,24 @@
        <string>로그아웃</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_main_to_map">
+     <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>250</y>
-        <width>101</width>
-        <height>31</height>
+        <x>300</x>
+        <y>730</y>
+        <width>281</width>
+        <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>지도</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_main_to_info">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>380</y>
-        <width>101</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>정보</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="stack_map">
-     <widget class="QGroupBox" name="mapbox">
-      <property name="geometry">
-       <rect>
-        <x>14</x>
-        <y>154</y>
-        <width>521</width>
-        <height>531</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>지도를 움직여 상세 지역을 선택해주세요.</string>
-      </property>
-      <widget class="QWebEngineView" name="map" native="true">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>500</width>
-         <height>500</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
-       </property>
-       <property name="url" stdset="0">
-        <url>
-         <string>about:blank</string>
-        </url>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QPushButton" name="send_btn">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>700</y>
-        <width>75</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>조회하기</string>
+       <string>&lt;- 서버로 좌표 전송하는 버튼</string>
       </property>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>14</x>
-        <y>54</y>
+        <x>10</x>
+        <y>80</y>
         <width>521</width>
         <height>81</height>
        </rect>
@@ -465,24 +406,11 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QLabel" name="label_8">
-      <property name="geometry">
-       <rect>
-        <x>304</x>
-        <y>704</y>
-        <width>281</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;- 서버로 좌표 전송하는 버튼</string>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>534</x>
-        <y>524</y>
+        <x>530</x>
+        <y>550</y>
         <width>261</width>
         <height>211</height>
        </rect>
@@ -688,18 +616,49 @@
        </property>
       </widget>
      </widget>
-     <widget class="QPushButton" name="btn_map_to_main">
+     <widget class="QPushButton" name="send_btn">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>101</width>
-        <height>31</height>
+        <x>206</x>
+        <y>726</y>
+        <width>75</width>
+        <height>24</height>
        </rect>
       </property>
       <property name="text">
-       <string>뒤로가기</string>
+       <string>조회하기</string>
       </property>
+     </widget>
+     <widget class="QGroupBox" name="mapbox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>521</width>
+        <height>531</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>지도를 움직여 상세 지역을 선택해주세요.</string>
+      </property>
+      <widget class="QWebEngineView" name="map" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>500</width>
+         <height>500</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="url" stdset="0">
+        <url>
+         <string>about:blank</string>
+        </url>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="stack_info">
@@ -707,7 +666,7 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>50</y>
+        <y>110</y>
         <width>161</width>
         <height>91</height>
        </rect>
@@ -759,7 +718,7 @@
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>50</y>
+        <y>110</y>
         <width>361</width>
         <height>91</height>
        </rect>
@@ -808,7 +767,7 @@
       <property name="geometry">
        <rect>
         <x>410</x>
-        <y>460</y>
+        <y>520</y>
         <width>261</width>
         <height>221</height>
        </rect>
@@ -873,7 +832,7 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>160</y>
+        <y>220</y>
         <width>541</width>
         <height>281</height>
        </rect>
@@ -951,7 +910,7 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>460</y>
+        <y>520</y>
         <width>261</width>
         <height>221</height>
        </rect>

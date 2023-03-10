@@ -476,6 +476,7 @@ void MainWindow::on_btn_logout_clicked()
     QMessageBox::information(this, "알림", "로그아웃 되었습니다.");
     this->login_user = User();
     ui->stackedWidget->setCurrentWidget(ui->stack_login);
+    ui->mapbox->hide();
 }
 
 
@@ -515,24 +516,6 @@ void MainWindow::on_btn_info_to_main_clicked()
 }
 
 
-void MainWindow::on_btn_map_to_main_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->stack_main);
-}
-
-
-void MainWindow::on_btn_main_to_map_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->stack_map);
-}
-
-
-void MainWindow::on_btn_main_to_info_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->stack_info);
-}
-
-
 void MainWindow::on_send_btn_clicked()
 {
     // .pro에 QT+= webenginecore 추가, #include <QWebEnginePage>
@@ -569,6 +552,8 @@ void MainWindow::on_send_btn_clicked()
     // qApp->processEvents() 현재 대기 중인 이벤트를 즉시 처리
     // 일부 이벤트를 처리하지 않은 채로 GUI가 응답하지 않게 되는 문제를 해결
     qApp->processEvents();
+
+    ui->stackedWidget->setCurrentWidget(ui->stack_info);
 }
 
 

@@ -74,12 +74,6 @@ private slots:
 
     void on_btn_info_to_main_clicked();
 
-    void on_btn_map_to_main_clicked();
-
-    void on_btn_main_to_map_clicked();
-
-    void on_btn_main_to_info_clicked();
-
     void on_send_btn_clicked();
 
     void on_location1_currentTextChanged(const QString &arg1);

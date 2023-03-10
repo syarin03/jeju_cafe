@@ -82,6 +82,14 @@ QString MainWindow::make_html(QString &coordx, QString &coordy, QString &mapleve
                     document.getElementById("neY").textContent = info[5];
                     document.getElementById("level").textContent = info[6];
                 });
+                var info = getInfo(level, center, bounds, swLatLng, neLatLng, boundsStr)
+                document.getElementById("centerX").textContent = info[0];
+                document.getElementById("centerY").textContent = info[1];
+                document.getElementById("swX").textContent = info[2];
+                document.getElementById("swY").textContent = info[3];
+                document.getElementById("neX").textContent = info[4];
+                document.getElementById("neY").textContent = info[5];
+                document.getElementById("level").textContent = info[6];
             </script>
         </body>
         </html>)";
@@ -529,7 +537,7 @@ void MainWindow::on_send_btn_clicked()
 {
     // .pro에 QT+= webenginecore 추가, #include <QWebEnginePage>
     QWebEnginePage *page = ui->map->page();
-    QString html;
+//    QString html;
 
     // 페이지의 HTML 코드 수집
     page->toHtml([&](const QString& html){
@@ -544,17 +552,17 @@ void MainWindow::on_send_btn_clicked()
             }
         }
     // ui에 표시
-    ui->centerX->setText(mapData["centerX"]);
-    ui->centerY->setText(mapData["centerY"]);
-    ui->swX->setText(mapData["swX"]);
-    ui->swY->setText(mapData["swY"]);
-    ui->neX->setText(mapData["neX"]);
-    ui->neY->setText(mapData["neY"]);
-    ui->Level->setText(mapData["level"]);
+        ui->centerX->setText(mapData["centerX"]);
+        ui->centerY->setText(mapData["centerY"]);
+        ui->swX->setText(mapData["swX"]);
+        ui->swY->setText(mapData["swY"]);
+        ui->neX->setText(mapData["neX"]);
+        ui->neY->setText(mapData["neY"]);
+        ui->Level->setText(mapData["level"]);
 
+        qDebug() << mapData;
+        // 여기다가 서버로 보내는 코드 작성
     });
-
-    qDebug() << mapData;
 
     // toHtml() 함수가 비동기 함수이므로, 위 코드가 바로 실행되지 않는다.
     // 대신, toHtml() 함수가 완료될 때까지 기다린 후에 다음 코드를 실행
@@ -566,8 +574,8 @@ void MainWindow::on_send_btn_clicked()
 
 void MainWindow::on_location1_currentTextChanged(const QString &arg1)
 {
-    now = ui->location1->currentText();
-    qDebug() << now;
+//    now = ui->location1->currentText();
+    qDebug() << arg1;
     ui->location2->clear();
     set_combobox();
 }

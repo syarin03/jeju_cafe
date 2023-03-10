@@ -553,7 +553,7 @@ void MainWindow::on_send_btn_clicked()
     // 일부 이벤트를 처리하지 않은 채로 GUI가 응답하지 않게 되는 문제를 해결
     qApp->processEvents();
 
-    ui->stackedWidget->setCurrentWidget(ui->stack_info);
+//    ui->stackedWidget->setCurrentWidget(ui->stack_info);
 }
 
 

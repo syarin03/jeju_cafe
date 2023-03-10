@@ -1,0 +1,8 @@
+build-client-Desktop_Qt_6_4_2_MSVC2019_64bit-Debug/
+build-server-Desktop_Qt_6_4_2_MinGW_64_bit-Debug
+client/client.pro.user
+server/server.pro.user
+*.user
+*.4ced3da
+*.pro.user
+*.pro.user.*

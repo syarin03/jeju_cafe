@@ -6,6 +6,8 @@ CONFIG += c++17
 QT += sql
 QT += core
 QT += network
+QT += webenginewidgets
+QT += charts
 
 INCLUDEPATH +="C:/Program Files/MySQL/Connector C++ 8.0/include"
 LIBS += "-LC:/Program Files/MySQL/Connector C++ 8.0/lib64/vs14/ -lmysqlcppconn8"

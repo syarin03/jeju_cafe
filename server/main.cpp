@@ -158,6 +158,34 @@ int main(int argc, char *argv[])
                 }
                 cout << obj["result"].toBool() << endl;
             }
+            else if (method == "map_info")
+            {
+                QString user_num = QString::number(obj.value("user_num").toInt());
+                QString centerX = obj.value("centerX").toString();
+                QString centerY = obj.value("centerY").toString();
+                QString datetime = obj.value("send_time").toString();
+
+
+                QString tableName = "history";
+                QSqlQuery query;
+
+                QString sql = QString("INSERT INTO %1.%2 (user_num, center_x, center_y, datetime) VALUES ('%3', '%4', '%5', '%6');")
+                        .arg(schemaName, tableName, user_num, centerX, centerY, datetime);
+                cout << sql.toStdString() << endl;
+
+                obj["method"] = "map_info_result";
+
+                if (query.exec(sql))
+                {
+                    qDebug() << "insert success";
+                    obj["result"] = true;
+                }
+                else
+                {
+                    qCritical() << "insert failed";
+                    obj["result"] = false;
+                }
+            }
 
             while (1)
             {

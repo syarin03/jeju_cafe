@@ -39,6 +39,11 @@ private:
 public:
     User();
     User(int num, QString uid, QString upw, QString uname, QString phone);
+    int get_num();
+    QString get_uid();
+    QString get_upw();
+    QString get_uname();
+    QString get_phone();
     void printInfo();
 };
 

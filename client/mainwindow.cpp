@@ -9,6 +9,36 @@ User::User(int num, QString uid, QString upw, QString uname, QString phone)
 User::User() {}
 
 
+int User::get_num()
+{
+    return num;
+}
+
+
+QString User::get_uid()
+{
+    return uid;
+}
+
+
+QString User::get_upw()
+{
+    return upw;
+}
+
+
+QString User::get_uname()
+{
+    return uname;
+}
+
+
+QString User::get_phone()
+{
+    return phone;
+}
+
+
 void User::printInfo()
 {
     cout << "num: " << this->num << endl;
@@ -544,6 +574,17 @@ void MainWindow::on_send_btn_clicked()
         ui->Level->setText(mapData["level"]);
 
         qDebug() << mapData;
+
+        QJsonObject obj;
+        obj["method"] = "map_info";
+        obj["user_num"] = this->login_user.get_num();
+        obj["centerX"] = mapData["centerX"];
+        obj["centerY"] = mapData["centerY"];
+        obj["send_time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+        QJsonDocument doc(obj);
+        QByteArray arr = doc.toJson(QJsonDocument::Compact);
+        this->socket.write(arr);
+
         // 여기다가 서버로 보내는 코드 작성
     });
 
@@ -553,7 +594,7 @@ void MainWindow::on_send_btn_clicked()
     // 일부 이벤트를 처리하지 않은 채로 GUI가 응답하지 않게 되는 문제를 해결
     qApp->processEvents();
 
-//    ui->stackedWidget->setCurrentWidget(ui->stack_info);
+    ui->stackedWidget->setCurrentWidget(ui->stack_info);
 }
 
 

@@ -3,7 +3,6 @@
 #include <QTcpSocket>
 #include <QDebug>
 #include <QMainWindow>
-//#include <QApplication>
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlDriver>

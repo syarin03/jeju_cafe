@@ -18,17 +18,17 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    //점수매기기 test
-    double x = 126.723442;              //임시xy값
-    double y = 33.4534214;
-    string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1228.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
-    std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
-    system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
-    std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
-    std::string line;                                                                                                               //line 변수
-    while (std::getline(infile, line)) {                                                                                            //한줄씩 읽어들임
-        std::cout << line << std::endl;
-    }
+//    //점수매기기 test
+//    double x = 126.723442;              //임시xy값
+//    double y = 33.4534214;
+//    string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1228.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
+//    std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
+//    system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
+//    std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
+//    std::string line;                                                                                                               //line 변수
+//    while (std::getline(infile, line)) {                                                                                            //한줄씩 읽어들임
+//        std::cout << line << std::endl;
+//    }
 
     int n = 0;
     int n2 = 0;
@@ -130,106 +130,217 @@ int main(int argc, char *argv[])
                     qCritical() << "Unexpected value for key 'map'";
                 }
             }
-            else if ( method=="signup")
+            else if ( method == "상위5")
             {
-                QJsonValue mapValueid = jsonResponse.operator []("input_id");
-                QJsonValue mapValuepw = jsonResponse.operator []("input_pw");
-                QJsonValue mapValuename = jsonResponse.operator []("input_name");
-                QJsonValue mapValuephone = jsonResponse.operator []("input_phone");
-                if (mapValueid.isString()) {
-                    // 문자열인 경우
-                    QString strValue = mapValueid.toString();
-                    qDebug() << "Response from server id:" << strValue;
-                    //여기에 이제 전달식 넣으면 됨
-                } else {
-                    // 그 외의 경우
-                    qCritical() << "Unexpected value for key 'map'";
-                }
-                if (mapValuepw.isString()) {
-                    // 문자열인 경우
-                    QString strValue = mapValuepw.toString();
-                    qDebug() << "Response from server pw:" << strValue;
-                    //여기에 이제 전달식 넣으면 됨
-                } else {
-                    // 그 외의 경우
-                    qCritical() << "Unexpected value for key 'map'";
-                }
+                double x = 126.47331737221904;              //임시xy값
+                double y = 33.48660112476012;
+                string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1229.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
+                std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
+                system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
+                std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
 
-                if (mapValuename.isString()) {
-                    // 문자열인 경우
-                    QString strValue = mapValuename.toString();
-                    qDebug() << "Response from server name:" << strValue;
-                    //여기에 이제 전달식 넣으면 됨
-                } else {
-                    // 그 외의 경우
-                    qCritical() << "Unexpected value for key 'map'";
+                std::string line;                                                                                                               //line 변수
+                QJsonArray line2;                                                                                                              //line2 변수 수정
+                while (std::getline(infile, line)) {
+                    line2.append(QJsonValue(QString::fromStdString(line)));                                                                                                           //getline으로 읽어들인 한 줄에 개행 문자가 포함될 수 있으므로, 개행 문자를 포함하여 line2에 추가
                 }
-                if (mapValuephone.isString()) {
-                    // 문자열인 경우
-                    QString strValue = mapValuephone.toString();
-                    qDebug() << "Response from server phone:" << strValue;
-                    //여기에 이제 전달식 넣으면 됨
-                } else {
-                    // 그 외의 경우
-                    qCritical() << "Unexpected value for key 'map'";
-                }
-               QString schemaName = "1team_db";
-               QString tableName = "member";
-               QSqlQuery query;
-               QJsonArray list;
-               QString sql = QString("SELECT * FROM `%1`.`%2`").arg(schemaName).arg(tableName);
-               if (query.exec(sql)) {
-                    while (query.next())
-                    {
-                        int num = 0;
-                        while (num<5)
-                        {
-                            list.append(query.value(num).toString());
-                            num++;
-                        }
-                        QJsonDocument jsonDoc(list);
+                infile.close();                                                                                                                 //파일 읽기 종료 후 파일 닫기
+                QJsonDocument doc(line2);
+//                std::cout << doc.toJson().toStdString() << std::endl;
+                qDebug() << QString::fromUtf8(doc.toJson());
+                QJsonObject jsonObject;
+                while(1) {
+                    if (n < clientSockets.size() && clientSockets.at(n)==clientSocket) {                                                        //인덱스 검사 추가
+                        qDebug()<<"yes";
+                        jsonObject ["score"]=line2;                                                                    //QJsonObject에는 std::string 형식이 아닌 QString 형식으로 값을 추가해야 함
+                        QJsonDocument jsonDoc(jsonObject);
+                        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+                        clientSockets.at(n)->write(jsonData);
+                        n = 0;
+                        break;
                     }
-//                     list = QJsonArray();
-                 }
-                 else {
-                     qDebug() << "Failed to execute query";
-                 }
-               qDebug() << list;
+                    else if (n >= clientSockets.size()) {                                                                                       //인덱스 검사 추가
+                        qDebug() << "Invalid client socket index";
+                        break;
+                    }
+                    else
+                        n++;
+                }
+            }
+            else if ( method == "점수도출")
+            {
+                double x = 126.723442;              //임시xy값
+                double y = 33.4534214;
+                string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1228.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
+                std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
+                system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
+                std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
+                std::string line;                                                                                                               //line 변수
+                QJsonArray line2;                                                                                                              //line2 변수 수정
+                while (std::getline(infile, line)) {
+                    line2.append(QJsonValue(QString::fromStdString(line)));                                                                                                           //getline으로 읽어들인 한 줄에 개행 문자가 포함될 수 있으므로, 개행 문자를 포함하여 line2에 추가
+                }
+                infile.close();                                                                                                                 //파일 읽기 종료 후 파일 닫기
+                QJsonDocument doc(line2);
+//                std::cout << doc.toJson().toStdString() << std::endl;
+                qDebug() << QString::fromUtf8(doc.toJson());
+                QJsonObject jsonObject;
+                while(1) {
+                    if (n < clientSockets.size() && clientSockets.at(n)==clientSocket) {                                                        //인덱스 검사 추가
+                        qDebug()<<"yes";
+                        jsonObject ["score"]=line2;                                                                    //QJsonObject에는 std::string 형식이 아닌 QString 형식으로 값을 추가해야 함
+                        QJsonDocument jsonDoc(jsonObject);
+                        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+                        clientSockets.at(n)->write(jsonData);
+                        n = 0;
+                        break;
+                    }
+                    else if (n >= clientSockets.size()) {                                                                                       //인덱스 검사 추가
+                        qDebug() << "Invalid client socket index";
+                        break;
+                    }
+                    else
+                        n++;
+                }
+            }
+            else if ( method == "1km")
+            {
+                double x = 126.47331737221904;              //임시xy값
+                double y = 33.48660112476012;
+                string command = "C:\\Users\\kiot\\AppData\\Local\\Programs\\Python\\Python39\\python C:\\Users\\kiot\\PycharmProjects\\pythonProject1\\1230.py " + std::to_string(x) + "," + std::to_string(y); //인터프리터경로,파일위치,인자1,인자2
+                std::ofstream outfile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                     //해당 경로에 txt파일생성
+                system(command.c_str());                                                                                                        //command 경로를 토대로 파일 작동
+                std::ifstream infile("C:\\Users\\kiot\\Documents\\GitHub\\jeju_cafe\\server\\output.txt");                                      //해당경로의 파일 읽기시작
+
+                std::string line;                                                                                                               //line 변수
+                QJsonArray line2;                                                                                                              //line2 변수 수정
+                while (std::getline(infile, line)) {
+                    line2.append(QJsonValue(QString::fromStdString(line)));                                                                                                           //getline으로 읽어들인 한 줄에 개행 문자가 포함될 수 있으므로, 개행 문자를 포함하여 line2에 추가
+                }
+                infile.close();                                                                                                                 //파일 읽기 종료 후 파일 닫기
+                QJsonDocument doc(line2);
+//                std::cout << doc.toJson().toStdString() << std::endl;
+                qDebug() << QString::fromUtf8(doc.toJson());
+                QJsonObject jsonObject;
+                while(1) {
+                    if (n < clientSockets.size() && clientSockets.at(n)==clientSocket) {                                                        //인덱스 검사 추가
+                        qDebug()<<"yes";
+                        jsonObject ["score"]=line2;                                                                    //QJsonObject에는 std::string 형식이 아닌 QString 형식으로 값을 추가해야 함
+                        QJsonDocument jsonDoc(jsonObject);
+                        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+                        clientSockets.at(n)->write(jsonData);
+                        n = 0;
+                        break;
+                    }
+                    else if (n >= clientSockets.size()) {                                                                                       //인덱스 검사 추가
+                        qDebug() << "Invalid client socket index";
+                        break;
+                    }
+                    else
+                        n++;
+                }
+            }
+
+//            else if ( method=="signup")
+//            {
+//                QJsonValue mapValueid = jsonResponse.operator []("input_id");
+//                QJsonValue mapValuepw = jsonResponse.operator []("input_pw");
+//                QJsonValue mapValuename = jsonResponse.operator []("input_name");
+//                QJsonValue mapValuephone = jsonResponse.operator []("input_phone");
+//                if (mapValueid.isString()) {
+//                    // 문자열인 경우
+//                    QString strValue = mapValueid.toString();
+//                    qDebug() << "Response from server id:" << strValue;
+//                    //여기에 이제 전달식 넣으면 됨
+//                } else {
+//                    // 그 외의 경우
+//                    qCritical() << "Unexpected value for key 'map'";
+//                }
+//                if (mapValuepw.isString()) {
+//                    // 문자열인 경우
+//                    QString strValue = mapValuepw.toString();
+//                    qDebug() << "Response from server pw:" << strValue;
+//                    //여기에 이제 전달식 넣으면 됨
+//                } else {
+//                    // 그 외의 경우
+//                    qCritical() << "Unexpected value for key 'map'";
+//                }
+
+//                if (mapValuename.isString()) {
+//                    // 문자열인 경우
+//                    QString strValue = mapValuename.toString();
+//                    qDebug() << "Response from server name:" << strValue;
+//                    //여기에 이제 전달식 넣으면 됨
+//                } else {
+//                    // 그 외의 경우
+//                    qCritical() << "Unexpected value for key 'map'";
+//                }
+//                if (mapValuephone.isString()) {
+//                    // 문자열인 경우
+//                    QString strValue = mapValuephone.toString();
+//                    qDebug() << "Response from server phone:" << strValue;
+//                    //여기에 이제 전달식 넣으면 됨
+//                } else {
+//                    // 그 외의 경우
+//                    qCritical() << "Unexpected value for key 'map'";
+//                }
+//               QString schemaName = "1team_db";
+//               QString tableName = "member";
+//               QSqlQuery query;
+//               QJsonArray list;
+//               QString sql = QString("SELECT * FROM `%1`.`%2`").arg(schemaName).arg(tableName);
+//               if (query.exec(sql)) {
+//                    while (query.next())
+//                    {
+//                        int num = 0;
+//                        while (num<5)
+//                        {
+//                            list.append(query.value(num).toString());
+//                            num++;
+//                        }
+//                        QJsonDocument jsonDoc(list);
+//                    }
+////                     list = QJsonArray();
+//                 }
+//                 else {
+//                     qDebug() << "Failed to execute query";
+//                 }
+//               qDebug() << list;
 
                //insert형식 테스트
-               if(list == QJsonArray())
-               {
-                   qDebug() << "!!!!!!!!!!!!!!!!!";
-                   QSqlQuery query;
-                   QString queryString = "INSERT INTO " + tableName + " (uid, upw, uname, phone) "
-                                          "VALUES (:val1, :val2, :val3, :val4)";
-                   query.prepare(queryString);
-                   query.bindValue(":val1", mapValueid);
-                   query.bindValue(":val2", mapValuepw);
-                   query.bindValue(":val3", mapValuename);
-                   query.bindValue(":val4", mapValuephone);
+//               if(list == QJsonArray())
+//               {
+//                   qDebug() << "!!!!!!!!!!!!!!!!!";
+//                   QSqlQuery query;
+//                   QString queryString = "INSERT INTO " + tableName + " (uid, upw, uname, phone) "
+//                                          "VALUES (:val1, :val2, :val3, :val4)";
+//                   query.prepare(queryString);
+//                   query.bindValue(":val1", mapValueid);
+//                   query.bindValue(":val2", mapValuepw);
+//                   query.bindValue(":val3", mapValuename);
+//                   query.bindValue(":val4", mapValuephone);
 
-                   if (!query.exec()) {
-                       qDebug() << "Error: Failed to insert data into table.";
-                   }
-               }
-            }
+//                   if (!query.exec()) {
+//                       qDebug() << "Error: Failed to insert data into table.";
+//                   }
+//               }
+//            }
 
-            QJsonObject jsonObject;                                                                                     //            QJsonObject jsonObject;      //json형 object생성
-            while(1)                                                                                                    //무한반복문,n을 1씩증가시키면서 데이터를 보낸 클라이언트의 소켓을 만날때까지 반복함
-            {
-                if (clientSockets.at(n)==clientSocket){                                                                 //현재 데이터를 보낸 클라이언트와 n번소켓이같을때
-                    qDebug()<<"yes";                                                                                    //if문 작동확인 메세지
-                    jsonObject ["map"]= 1;
-                    QJsonDocument jsonDoc(jsonObject);
-                    QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
-                    clientSockets.at(n)->write(jsonData);                                                              //n번 클라이언트에 메세지 전달
-                    n=0;                                                                                                //n을 0으로
-                    break;                                                                                              //반복종료
-                }
-                else
-                    n++;                                                                                                //반복할때마다 n증가
-            }
+//            QJsonObject jsonObject;                                                                                     //            QJsonObject jsonObject;      //json형 object생성
+//            while(1)                                                                                                    //무한반복문,n을 1씩증가시키면서 데이터를 보낸 클라이언트의 소켓을 만날때까지 반복함
+//            {
+//                if (clientSockets.at(n)==clientSocket){                                                                 //현재 데이터를 보낸 클라이언트와 n번소켓이같을때
+//                    qDebug()<<"yes";                                                                                    //if문 작동확인 메세지
+//                    jsonObject ["map"]= 1;
+//                    QJsonDocument jsonDoc(jsonObject);
+//                    QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Compact);
+//                    clientSockets.at(n)->write(jsonData);                                                              //n번 클라이언트에 메세지 전달
+//                    n=0;                                                                                                //n을 0으로
+//                    break;                                                                                              //반복종료
+//                }
+//                else
+//                    n++;                                                                                                //반복할때마다 n증가
+//            }
         });
 
         // 5. 클라이언트가 연결을 종료할 때마다 실행

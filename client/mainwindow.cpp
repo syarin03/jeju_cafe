@@ -240,6 +240,17 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->stackedWidget->setCurrentWidget(ui->stack_login);
             }
         }
+        else if (method == "map_info_result")
+        {
+            if (!obj["result"].toBool())
+            {
+                cout << "unknown error" << endl;
+            }
+            else
+            {
+                cout << "history save success" << endl;
+            }
+        }
     });
 
     QRegularExpression re_eng_num("[A-Za-z0-9]*");

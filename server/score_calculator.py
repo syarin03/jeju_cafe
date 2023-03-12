@@ -1,0 +1,25 @@
+import sympy
+
+a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s = sympy.symbols("a b c d e f g h i j k l m n o p q r s")
+
+f1 = sympy.Eq()
+f2 = sympy.Eq()
+f3 = sympy.Eq()
+f4 = sympy.Eq()
+f5 = sympy.Eq()
+f6 = sympy.Eq()
+f7 = sympy.Eq()
+f8 = sympy.Eq()
+f9 = sympy.Eq()
+f10 = sympy.Eq()
+f11 = sympy.Eq()
+f12 = sympy.Eq()
+f13 = sympy.Eq()
+f14 = sympy.Eq()
+f15 = sympy.Eq()
+f16 = sympy.Eq()
+f17 = sympy.Eq()
+f18 = sympy.Eq()
+f19 = sympy.Eq()
+
+print(sympy.solve([f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19]))

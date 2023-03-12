@@ -21,7 +21,7 @@ search_line = driver.find_element(
 )
 
 # DB 연동
-conn = pymysql.connect(host="10.10.21.110", user="jeju_cafe", password="xlavmfhwprxm1", port=3306, database="jeju_cafe")
+conn = pymysql.connect(host="10.10.21.110", user="jeju_cafe", password="xlavmfhwprxm1", port=3306, database="1team_db")
 c = conn.cursor()
 
 

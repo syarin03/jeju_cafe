@@ -2,17 +2,12 @@
 #include "ui_mainwindow.h"
 #include <typeinfo>
 #include <QChart>
-#include <QtCharts/QLineSeries>
-#include <QtCharts/QPieSeries>
-#include <QtCharts/QPieSlice>
 #include <QChartView>
 #include <QBarSet>
 #include <QBarSeries>
 #include <QGraphicsAnchorLayout>
 #include <QCategoryAxis>
 #include <QBarCategoryAxis>
-
-// QBarSet, QBarSeries, QChartView
 
 
 User::User(int num, QString uid, QString upw, QString uname, QString phone)
@@ -203,7 +198,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&socket, &QTcpSocket::readyRead, [=]()
     {
         QByteArray response = this->socket.readAll();
-        qDebug() << "Response from server:" << response;
+//        qDebug() << "Response from server:" << response;
         cout << endl << "response from server: " << endl << response.toStdString() << endl;
 
         QJsonDocument doc = QJsonDocument::fromJson(response);
@@ -258,12 +253,9 @@ MainWindow::MainWindow(QWidget *parent)
         }
         else if (method == "map_info_result")
         {
-//            qDebug() << obj.value("value1"); // 별점 높은 5곳
-            // QJsonValue(array, QJsonArray(["(39729, '메가MGC커피 서귀포여중점', None, '카페', '제주특별자치도 서귀포시 일주동로 8840', 126.544986, 33.25553319, 0, 5.0)","(39810, '컴포즈커피 서귀포서홍점', None, '카페', '제주특별자치도 서귀포시 홍중로 47', 126.557032, 33.25703281, 0, 5.0)","(39816, '오니리크', None, '카페', '제주특별자치도 서귀포시 홍중로27번길 4', 126.5575481, 33.25514574, 3, 5.0)","(39823, '맨도롱힐링카페', None, '카페', '제주특별자치도 서귀포시 중앙로195번길 22', 126.5565002, 33.26202955, 0, 5.0)","(39825, '동네커피 토토네', None, '카페', '제주특별자치도 서귀포시 중앙로 183', 126.5589495, 33.26092385, 0, 5.0)"]))
-//            qDebug() << "점수환산 ~~~~~ " << obj.value("value2"); // 점수환산
-            // QJsonValue(array, QJsonArray(["paikdabang score= 3.8250308398","starbucks score= 0.3479226057"]))
-//            qDebug() << obj.value("value3"); // 주위 시설
-            // QJsonValue(array, QJsonArray(["{'종교시설': 14, '콘도': 1, '유스호스텔': 1, '병원': 6, '호텔': 1, '도서관': 7, '대형마트': 1, '펜션': 2, '숙박': 3, '음식점': 155, '학교': 4, '어린이집/유치원': 2, '아파트': 3709}"]))
+            // value1 : 평점이 높은 인접 5장소
+            // value2 : 추천 프랜차이즈
+            // value3 : 지역 정보(무엇이 몇 개)
 
             if (!obj["result"].toBool())
             {
@@ -272,56 +264,46 @@ MainWindow::MainWindow(QWidget *parent)
             else
             {
                 cout << "history save success" << endl;
-//                cout << obj["name"].toString().toStdString() << endl;
             }
 
             // 점수환산
             QJsonValue scores = obj.value("value2");
-
+            qDebug() << "scores" << scores;
+            QString scores_result = scores.toArray()[0].toString();
+            qDebug() << "scores result" << scores_result;
+            ui->la->setText(scores_result);
 
             // 그래프
-            QJsonValue region_info = obj.value("value3");
+            QJsonValue region_info_list = obj.value("value3");
 
-//            qDebug() << region_info[0] << "그래프!!!" ;
-//            qDebug() << region_info[0].type() << "그래프!!!" ;
-            QString resioninfo = region_info[0].toString();
-            int temp_re_len = resioninfo.length();
-            resioninfo = resioninfo.sliced(1, temp_re_len-2);
-            cout << resioninfo.toStdString() << "그래프!!!!" << endl;
-
-            QStringList temp_re_list = resioninfo.split(',');
-            qDebug() << "리스트로 자른거!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<  temp_re_list ;
+            QString region_info = region_info_list[0].toString();
+            int region_info_len = region_info.length();
+            region_info = region_info.sliced(1, region_info_len-2);
+            QStringList region_info_detail = region_info.split(',');
             \
-            QMap<QString, int> temp_map;
-//            QPieSeries *series = new QPieSeries();
-
+            QMap<QString, int> business_cnt;
             QChartView *chartView = new QChartView();
             QChart *chart = new QChart();
             QBarSet *barSet = new QBarSet("");
 
-            for (int i = 0; i < temp_re_list.length() ; i++)
+            for (int i = 0; i < region_info_detail.length() ; i++)
             {
-                QString tempKey = temp_re_list[i].split(':')[0].trimmed();
-                int tempVal = temp_re_list[i].split(':')[1].trimmed().toInt();
-//                series->append(tempKey, tempVal.toInt());
-                temp_map.insert(tempKey, tempVal);
+                QString business = region_info_detail[i].split(':')[0].trimmed();
+                business = business.sliced(1,business.length()-2);
+                int cnt = region_info_detail[i].split(':')[1].trimmed().toInt();
+                if (business != "아파트")
+                {
+                    business_cnt.insert(business, cnt);
+                }
             }
-            qDebug() << "큐맵테스트!!!!!!!!!!!!!!!!!!!!!!!" << temp_map;
 
-//            foreach(QString key, temp_map.keys()) {
-
-//                *barSet << temp_map.value(key);
-//                chart->addAxis(new QGraphicsAnchorLayout(), Qt::AlignBottom); // X축 생성
-//                chart->addAxis(new QGraphicsAnchorLayout(), Qt::AlignLeft); // Y축 생성
-//                chart->axisX()->append(key); // X축 라벨 추가
-//            }
             QBarCategoryAxis *axisX = new QBarCategoryAxis();
             QValueAxis *axisY = new QValueAxis();
             chart->addAxis(axisX, Qt::AlignBottom); // X축 생성
             chart->addAxis(axisY, Qt::AlignLeft); // Y축 생성
 
-            foreach(QString key, temp_map.keys()) {
-                *barSet << temp_map.value(key);
+            foreach(QString key, business_cnt.keys()) {
+                *barSet << business_cnt.value(key);
                 axisX->append(key); // X축 라벨 추가
             }
 
@@ -339,18 +321,17 @@ MainWindow::MainWindow(QWidget *parent)
 
             for (int i = 0; i < 5; i++)
             {
-                QString temp_str = best_5[i].toString();
-                int temp_len = temp_str.length();
-                temp_str = temp_str.sliced(1, temp_len-2);
-                cout << temp_str.toStdString() << endl;
-    //            qDebug() << temp_str;
-                QStringList temp_obj = temp_str.split(',');
-                qDebug() << "temp_obj:" << temp_obj[0];
-//                QString temp_label = QString("%1 / %2 / %3 / 평점: %4").arg(temp_obj[1], temp_obj[3], temp_obj[4], temp_obj[8]);
-                ui->list_best->setItem(i, 0, new QTableWidgetItem(temp_obj[1]));
-                ui->list_best->setItem(i, 1, new QTableWidgetItem(temp_obj[3]));
-                ui->list_best->setItem(i, 2, new QTableWidgetItem(temp_obj[4]));
-                ui->list_best->setItem(i, 3, new QTableWidgetItem(temp_obj[8]));
+                QString best_str = best_5[i].toString();
+                int str_len = best_str.length();
+                best_str = best_str.sliced(1, str_len-2);
+                cout << best_str.toStdString() << endl;
+                QStringList str_list = best_str.split(',');
+                qDebug() << "str_list:" << str_list[0];
+                QString name_str = str_list[1].trimmed();
+                ui->list_best->setItem(i, 0, new QTableWidgetItem(name_str.sliced(1, name_str.length()-2)));
+                ui->list_best->setItem(i, 1, new QTableWidgetItem(str_list[2].sliced(2, str_list[2].length()-3)));
+                ui->list_best->setItem(i, 2, new QTableWidgetItem(str_list[3].sliced(2, str_list[3].length()-3)));
+                ui->list_best->setItem(i, 3, new QTableWidgetItem(str_list[7]));
             }
         }
     });
@@ -438,13 +419,6 @@ MainWindow::MainWindow(QWidget *parent)
     mapData.insert("neY", "-");
     mapData.insert("level", "-");
 
-    // 창을 열자마자 웹 엔진이 보이는 구 코드
-    // QString filename = "C:/web_110/kakaomap.html";
-    // write(filename);
-
-    // QwebEngineView에 setUrl(QUrl), 로컬의 html파일을 가져온다.
-    // ui->map->setUrl(QUrl("http://localhost/myweb/kakaomap.html"));
-
     // 지도 숨기기
     ui->mapbox->hide();
 
@@ -475,8 +449,6 @@ void MainWindow::set_combobox()
         }
     }
 }
-
-
 
 
 void MainWindow::on_btn_login_clicked()
@@ -663,7 +635,13 @@ void MainWindow::on_map_view_btn_clicked()
 
 void MainWindow::on_btn_info_to_main_clicked()
 {
+    cout << "뒤로가기 btn" << endl;
     ui->stackedWidget->setCurrentWidget(ui->stack_main);
+    QLayoutItem *item = NULL;
+    business_cnt.clear();
+    while ((item = ui->result_category->takeAt(0)) != 0) {
+        delete item->widget();
+    }
 }
 
 
@@ -684,16 +662,6 @@ void MainWindow::on_send_btn_clicked()
                 mapData.insert(key, value);
             }
         }
-    // ui에 표시
-//        ui->centerX->setText(mapData["centerX"]);
-//        ui->centerY->setText(mapData["centerY"]);
-//        ui->swX->setText(mapData["swX"]);
-//        ui->swY->setText(mapData["swY"]);
-//        ui->neX->setText(mapData["neX"]);
-//        ui->neY->setText(mapData["neY"]);
-//        ui->Level->setText(mapData["level"]);
-
-//        qDebug() << mapData;
 
         // 서버로 보내는 코드 작성
         QJsonObject obj;

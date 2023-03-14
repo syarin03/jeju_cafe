@@ -21,6 +21,8 @@
 #include <QWebEngineView>
 #include <QWebEnginePage>
 #include <QWebEngineProfile>
+#include <QChartView>
+
 
 using namespace std;
 
@@ -107,7 +109,6 @@ private:
     QMap <QString, QString> seoguipoCity;
 
     // 선택 지역 멤버변수
-//    QList <QMap<QString, QString>> nowCity;
     QString now;
 
     // Qt의 딕셔너리 자료형, key-value 쌍으로 이루어짐
@@ -129,6 +130,10 @@ private:
     void write(QString filename);
     void read(QString filename);
     QString make_html(QString &coordx, QString &coordy, QString &level);
+
+    QChartView chartView;
+    QMap<QString, int> temp_map;
+
 
     // ui 초기화 함수들
     void set_combobox();

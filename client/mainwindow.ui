@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>800</height>
+    <width>1084</width>
+    <height>746</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>801</height>
+      <width>1091</width>
+      <height>751</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -328,7 +328,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>80</y>
+        <y>60</y>
         <width>521</width>
         <height>81</height>
        </rect>
@@ -396,8 +396,8 @@
      <widget class="QPushButton" name="send_btn">
       <property name="geometry">
        <rect>
-        <x>206</x>
-        <y>726</y>
+        <x>200</x>
+        <y>700</y>
         <width>75</width>
         <height>24</height>
        </rect>
@@ -410,7 +410,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>180</y>
+        <y>150</y>
         <width>521</width>
         <height>531</height>
        </rect>
@@ -442,20 +442,25 @@
      <widget class="QGroupBox" name="groupBox_4">
       <property name="geometry">
        <rect>
-        <x>50</x>
+        <x>20</x>
         <y>50</y>
-        <width>721</width>
-        <height>111</height>
+        <width>311</width>
+        <height>201</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="title">
        <string>추천 업종</string>
       </property>
-      <widget class="QLabel" name="label_13">
+      <widget class="QLabel" name="la">
        <property name="geometry">
         <rect>
-         <x>230</x>
-         <y>40</y>
+         <x>30</x>
+         <y>80</y>
          <width>251</width>
          <height>41</height>
         </rect>
@@ -473,14 +478,19 @@
      <widget class="QGroupBox" name="groupBox_6">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>550</y>
+        <x>340</x>
+        <y>50</y>
         <width>721</width>
         <height>201</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="title">
-       <string>주위의 리뷰 대비 평점이 높은 5곳</string>
+       <string>주위의 평점이 높은 장소</string>
       </property>
       <widget class="QLabel" name="label_21">
        <property name="geometry">
@@ -514,7 +524,7 @@
        </column>
        <column>
         <property name="text">
-         <string>비즈니스</string>
+         <string>분류</string>
         </property>
        </column>
        <column>
@@ -532,11 +542,16 @@
      <widget class="QGroupBox" name="groupBox_8">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>180</y>
-        <width>721</width>
+        <x>20</x>
+        <y>280</y>
+        <width>1041</width>
         <height>351</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="title">
        <string>반경 1Km 이내의 업종</string>
@@ -544,9 +559,9 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>20</y>
-         <width>721</width>
+         <x>5</x>
+         <y>25</y>
+         <width>1031</width>
          <height>321</height>
         </rect>
        </property>

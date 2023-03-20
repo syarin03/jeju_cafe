@@ -132,8 +132,6 @@ private:
     QString make_html(QString &coordx, QString &coordy, QString &level);
 
     QChartView chartView;
-    QMap<QString, int> temp_map;
-
 
     // ui 초기화 함수들
     void set_combobox();

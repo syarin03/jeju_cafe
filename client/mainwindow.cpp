@@ -422,9 +422,9 @@ MainWindow::MainWindow(QWidget *parent)
     // 지도 숨기기
     ui->mapbox->hide();
 
-    ui->list_best->setColumnWidth(0, 200);
+    ui->list_best->setColumnWidth(0, 205);
     ui->list_best->setColumnWidth(1, 80);
-    ui->list_best->setColumnWidth(2, 360);
+    ui->list_best->setColumnWidth(2, 380);
     ui->list_best->setColumnWidth(3, 50);
 }
 
@@ -638,9 +638,18 @@ void MainWindow::on_btn_info_to_main_clicked()
     cout << "뒤로가기 btn" << endl;
     ui->stackedWidget->setCurrentWidget(ui->stack_main);
     QLayoutItem *item = NULL;
-    business_cnt.clear();
+    //현재좌표삭제해야함
+    mapData.clear();
     while ((item = ui->result_category->takeAt(0)) != 0) {
         delete item->widget();
+    }
+    ui->la->clear();
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            ui->list_best->setItem(i, j, new QTableWidgetItem(""));
+        }
     }
 }
 
@@ -673,7 +682,7 @@ void MainWindow::on_send_btn_clicked()
         QJsonDocument doc(obj);
         QByteArray arr = doc.toJson(QJsonDocument::Compact);
         this->socket.write(arr);
-
+//        mapData.clear();
     });
 
     // toHtml() 함수가 비동기 함수이므로, 위 코드가 바로 실행되지 않는다.
